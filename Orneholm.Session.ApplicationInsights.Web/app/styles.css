@@ -1,0 +1,77 @@
+﻿html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #faf9f6;
+    font-family: Arial;
+}
+
+body {
+    padding: 10px 20px;
+}
+
+h2 {
+    margin-top: 60px;
+    border-bottom: 1px solid black;
+}
+
+h1:first-child {
+    margin-top: 5px;
+}
+
+h2:first-of-type {
+    margin-top: 20px;
+}
+
+input[type='text'] {
+    min-width: 400px;
+    font-size: 22px;
+}
+
+button {
+    min-width: 200px;
+    font-size: 22px;
+}
+
+.links, .links li {
+    list-style-type: none;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.links {
+    margin: 10px 0;
+}
+
+
+    .links li {
+        float: left;
+        margin-right: 10px;
+    }
+
+    .links:before,
+    .links:after {
+        content: " ";
+        display: block;
+    }
+
+    .links:after {
+        clear: both;
+    }
+
+    .links li a {
+        display: inline-block;
+        padding: 10px 20px;
+        border: 1px solid #000;
+        border-radius: 5px;
+        -webkit-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+        -ms-transition: all 0.5s;
+        -o-transition: all 0.5s;
+        transition: all 0.5s;
+    }
+
+        .links li a:hover {
+            background-color: #000;
+            color: #fff;
+        }

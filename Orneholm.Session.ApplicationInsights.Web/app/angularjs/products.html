@@ -1,0 +1,15 @@
+﻿<h3>{{title}}</h3>
+
+<span data-ng-if="!products">
+    Loading products...
+</span>
+
+<ul data-ng-if="products">
+    <li data-ng-repeat="product in products">
+        {{product.name}} ({{product.category}})
+    </li>
+</ul>
+
+<ul class="links">
+    <li><a href="#/home/">Home</a></li>
+</ul>

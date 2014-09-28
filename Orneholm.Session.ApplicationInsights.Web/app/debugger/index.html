@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Application Insights beyond console.log()</title>
+    <link href="../styles.css" rel="stylesheet" />
+
+    <!-- App Insights -->
+    <script type="text/javascript">
+        window.appInsights = window.appInsights || function (ai) {
+            function f(t) { ai[t] = function () { var i = arguments; ai.queue.push(function () { ai[t].apply(ai, i) }) } }
+            var t = document, r = "script", u = t.createElement(r), i; for (u.src = ai.url || "//az416426.vo.msecnd.net/scripts/a/ai.0.js", t.getElementsByTagName(r)[0].parentNode.appendChild(u), ai.cookie = t.cookie, ai.queue = [], i = ["Event", "Exception", "Metric", "PageView", "Trace"]; i.length;) f("track" + i.pop());
+            return ai;
+        }({
+            iKey: "c3f05866-dc41-42e7-b377-58ca3a3e325c"
+        });
+    </script>
+</head>
+<body>
+    <ul class="links">
+        <li><a href="/">Start</a></li>
+    </ul>
+    <h1>Application Insights beyond console.log()</h1>
+    <h2>Debugger</h2>
+
+    <h3>trackPageView()</h3>
+    <div>
+        <input type="text" id="trackPageView_pagePath" placeholder="pagePath" />
+        <button id="trackPageView_button">trackPageView()</button>
+    </div>
+
+    <script>
+        (function () {
+
+            var trackPageViewButton = document.getElementById('trackPageView_button');
+            var trackPageViewPagePath = document.getElementById('trackPageView_pagePath');
+            trackPageViewButton.addEventListener('click', function () {
+                if (appInsights) {
+                    appInsights.trackEvent(trackPageViewPagePath.value);
+                    console.info('Tracked page view for path: ' + trackPageViewPagePath.value);
+                }
+            });
+
+        }());
+    </script>
+
+
+
+    <h3>trackEvent()</h3>
+    <div>
+        <input type="text" id="trackEvent_name" placeholder="name" />
+        <button id="trackEvent_button">trackEvent()</button>
+    </div>
+
+    <script>
+        (function () {
+
+            var trackEventButton = document.getElementById('trackEvent_button');
+            var trackEventName = document.getElementById('trackEvent_name');
+            trackEventButton.addEventListener('click', function () {
+                if (appInsights) {
+                    appInsights.trackEvent(trackEventName.value);
+                    console.info('Tracked event: ' + trackEventName.value);
+                }
+            });
+
+        }());
+    </script>
+</body>
+</html> 

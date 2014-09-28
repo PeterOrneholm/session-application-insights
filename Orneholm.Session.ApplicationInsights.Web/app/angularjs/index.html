@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Application Insights beyond console.log()</title>
+    <link href="../styles.css" rel="stylesheet" />
+
+    <!-- App Insights -->
+    <script type="text/javascript">
+        window.appInsights = window.appInsights || function (ai) {
+            function f(t) { ai[t] = function () { var i = arguments; ai.queue.push(function () { ai[t].apply(ai, i) }) } }
+            var t = document, r = "script", u = t.createElement(r), i; for (u.src = ai.url || "//az416426.vo.msecnd.net/scripts/a/ai.0.js", t.getElementsByTagName(r)[0].parentNode.appendChild(u), ai.cookie = t.cookie, ai.queue = [], i = ["Event", "Exception", "Metric", "PageView", "Trace"]; i.length;) f("track" + i.pop());
+            return ai;
+        }({
+            iKey: "c3f05866-dc41-42e7-b377-58ca3a3e325c"
+        });
+    </script>
+</head>
+    <body data-ng-app="poApplicationInsights">
+        <ul class="links">
+            <li><a href="/">Start</a></li>
+        </ul>
+
+        <h1>Application Insights beyond console.log()</h1>
+        <h2>AngularJS</h2>
+
+        <div data-ng-view></div>
+
+        <script src="angular.js"></script>
+        <script src="angular-route.js"></script>
+        <script>
+            (function () {
+
+                angular
+                    .module('poApplicationInsights', ['ngRoute'])
+                    .controller('HomeController', function ($scope) { })
+                    .controller('ProductsController', function ($scope, $routeParams, $http, $log) {
+                        var category = $routeParams.category || '';
+
+                        $scope.title = (category || 'All') + ' products';
+                        $http.get('/api/products/' + category)
+                            .success(function (data) {
+                                $scope.products = data;
+                                $log.info('Products fetched');
+                            });
+                    })
+                    .config(function ($routeProvider) {
+                        $routeProvider
+                            .when('/home/', {
+                                templateUrl: 'home.html',
+                                controller: 'HomeController'
+                            })
+                            .when('/products/', {
+                                templateUrl: 'products.html',
+                                controller: 'ProductsController'
+                            })
+                            .when('/products/:category', {
+                                templateUrl: 'products.html',
+                                controller: 'ProductsController'
+                            })
+                            .otherwise({
+                                redirectTo: '/home'
+                            });
+                    })
+                    .config(function ($provide) {
+                        $provide.decorator('$log', function ($delegate) {
+                            function addAi(action) {
+                                var original = $delegate[action];
+
+                                $delegate[action] = function () {
+                                    var args = [].slice.call(arguments);
+
+                                    if (appInsights) {
+                                        appInsights.trackEvent('log/' + action, { message: args[0] });
+                                    }
+
+                                    original.apply(null, args);
+                                };
+                            }
+
+                            ['log', 'info', 'warn', 'error'].forEach(addAi);
+
+                            return $delegate;
+                        });
+                    })
+
+                    .run(function ($rootScope, $location) {
+                        $rootScope.$on('$locationChangeSuccess', function () {
+                            if (appInsights) {
+                                var url = $location.absUrl().replace('/#/', '/')
+                                    .replace('#', '');
+
+                                appInsights.trackPageView(url);
+                                console.info('Tracked page view for path: ' + url);
+                            }
+                        });
+                    });
+
+            }());
+        </script>
+    </body>
+</html> 

@@ -19,6 +19,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <ApplicationInsightsResourceId>/subscriptions/60546205-7d7a-459c-8734-c3fde58f8aa1/resourcegroups/Default-Web-WestEurope/providers/microsoft.insights/components/peterorneholm-applicationinsights</ApplicationInsightsResourceId>
+    <NuGetPackageImportStamp>9e6c4233</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,7 +40,40 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.ApplicationInsights">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.0.10.0-build17704\lib\net40\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights.RuntimeTelemetry">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.RuntimeTelemetry.0.10.0-build17704\lib\net45\Microsoft.ApplicationInsights.RuntimeTelemetry.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights.Web, Version=0.10.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.0.10.0-build17704\lib\net45\Microsoft.ApplicationInsights.Web.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Diagnostics.Tracing.EventSource, Version=1.0.26.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.0.26\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -48,6 +83,14 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -57,6 +100,17 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\angularjs\angular-route.js" />
+    <Content Include="app\angularjs\angular.js" />
+    <Content Include="app\angularjs\products.html" />
+    <Content Include="app\angularjs\home.html" />
+    <Content Include="app\angularjs\index.html" />
+    <Content Include="app\debugger\index.html" />
+    <Content Include="app\styles.css" />
+    <Content Include="app\vanillajs\index.html" />
+    <Content Include="Global.asax" />
+    <Content Include="packages.config" />
+    <Content Include="ApplicationInsights.config" />
     <None Include="Properties\PublishProfiles\peterorneholm-applicationinsights.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -67,11 +121,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
+    <Content Include="scripts\ai.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -97,6 +158,18 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="..\packages\Microsoft.ApplicationInsights.0.10.0-build17704\tools\net40\Microsoft.ApplicationInsights.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.0.10.0-build17704\tools\net40\Microsoft.ApplicationInsights.targets')" />
+  <Target Name="EnsureApplicationInsightsImported" BeforeTargets="BeforeBuild" Condition="'$(ApplicationInsightsImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.0.10.0-build17704\tools\net40\Microsoft.ApplicationInsights.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." />
+    <Error Condition="Exists('..\packages\Microsoft.ApplicationInsights.0.10.0-build17704\tools\net40\Microsoft.ApplicationInsights.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." />
+  </Target>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

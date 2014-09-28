@@ -4,8 +4,42 @@
 <head>
     <meta charset="utf-8" />
     <title>Application Insights beyond console.log()</title>
+    <link href="app/styles.css" rel="stylesheet" />
+
+    <!-- App Insights -->
+    <script type="text/javascript">
+        window.appInsights = window.appInsights || function (ai) {
+            function f(t) { ai[t] = function () { var i = arguments; ai.queue.push(function () { ai[t].apply(ai, i) }) } }
+            var t = document, r = "script", u = t.createElement(r), i; for (u.src = ai.url || "//az416426.vo.msecnd.net/scripts/a/ai.0.js", t.getElementsByTagName(r)[0].parentNode.appendChild(u), ai.cookie = t.cookie, ai.queue = [], i = ["Event", "Exception", "Metric", "PageView", "Trace"]; i.length;) f("track" + i.pop());
+            return ai;
+        }({
+            iKey: "c3f05866-dc41-42e7-b377-58ca3a3e325c"
+        });
+    </script>
 </head>
 <body>
     <h1>Application Insights beyond console.log()</h1>
+
+    <h2>Implementations</h2>
+
+    <ul class="links">
+        <li><a href="app/debugger/">Debugger</a></li>
+        <li><a href="app/angularjs/">Implemented in AngularJS</a></li>
+        <li><a href="app/vanillajs/">Implemented in VanillaJS</a></li>
+    </ul>
+
+    <h2>Resources</h2>
+    <ul class="links">
+        <li><a href="https://portal.azure.com/">Azure Portal (Preview)</a></li>
+        <li><a href="http://azure.microsoft.com/sv-se/documentation/articles/app-insights-web-track-usage/">Track usage using App Insights</a></li>
+        <li><a href="https://angularjs.org/">AngularJS</a></li>
+        <li><a href="http://vanilla-js.com/">VanillaJS</a></li>
+    </ul>
+
+    <h2>By</h2>
+    <p>
+        Peter Örneholm<br />
+        <a href="http://peter.orneholm.com/">http://peter.orneholm.com/</a>
+    </p>
 </body>
-</html>
+</html> 

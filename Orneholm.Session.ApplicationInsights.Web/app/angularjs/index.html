@@ -42,7 +42,7 @@
                         $http.get('/api/products/' + category)
                             .success(function (data) {
                                 $scope.products = data;
-                                $log.info('Products fetched');
+                                $log.warn('Products fetched');
                             });
                     })
                     .config(function ($routeProvider) {
@@ -88,8 +88,9 @@
                     .run(function ($rootScope, $location) {
                         $rootScope.$on('$locationChangeSuccess', function () {
                             if (appInsights) {
-                                var url = $location.absUrl().replace('/#/', '/')
-                                    .replace('#', '');
+                                var url = $location.absUrl()
+                                                    .replace('/#/', '/')
+                                                    .replace('#', '');
 
                                 appInsights.trackPageView(url);
                                 console.info('Tracked page view for path: ' + url);

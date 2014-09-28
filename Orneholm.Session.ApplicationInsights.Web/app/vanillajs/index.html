@@ -17,61 +17,61 @@
         });
     </script>
 </head>
-    <body data-ng-app="poApplicationInsights">
-        <ul class="links">
-            <li><a href="/">Start</a></li>
-        </ul>
-        <h1>Application Insights beyond console.log()</h1>
-        <h2>VanillaJS</h2>
+<body data-ng-app="poApplicationInsights">
+    <ul class="links">
+        <li><a href="/">Start</a></li>
+    </ul>
+    <h1>Application Insights beyond console.log()</h1>
+    <h2>VanillaJS</h2>
 
-        <h3>Current page</h3>
-        <div>
-            <span id="currentPage">&nbsp;</span>
-        </div>
+    <h3>Current page</h3>
+    <div>
+        <span id="currentPage">&nbsp;</span>
+    </div>
 
-        <h3>Links</h3>
-        <ul class="links">
-            <li><a href="#/home">Home</a></li>
-            <li><a href="#/error">Error</a></li>
-            <li><a href="#/products">All products</a></li>
+    <h3>Links</h3>
+    <ul class="links">
+        <li><a href="#/home">Home</a></li>
+        <li><a href="#/error">Error</a></li>
+        <li><a href="#/products">All products</a></li>
 
-            <li><a href="#/products/Sport">Sport products</a></li>
-            <li><a href="#/products/Tech">Tech products</a></li>
-            <li><a href="#/products/Food">Food products</a></li>
-        </ul>
+        <li><a href="#/products/Sport">Sport products</a></li>
+        <li><a href="#/products/Tech">Tech products</a></li>
+        <li><a href="#/products/Food">Food products</a></li>
+    </ul>
 
-        <script>
-            (function () {
-                window.addEventListener('hashchange', function () {
-                    var hash = window.location.hash;
-                    var url = window.location.href.replace('/#/', '/')
-                        .replace('#', '');
+    <script>
+        (function () {
+            window.addEventListener('hashchange', function () {
+                var hash = window.location.hash;
+                var url = window.location.href.replace('/#/', '/')
+                                              .replace('#', '');
 
-                    appInsights.trackPageView(url);
-                    document.getElementById('currentPage').innerText = hash;
-                    console.info('Tracked page view for path: ' + url);
-                    if (hash === '#/error') {
-                        console.error('An error occured');
-                    }
-                });
-
-                function addAi(action) {
-                    var original = window.console[action];
-
-                    window.console[action] = function () {
-                        var args = [].slice.call(arguments);
-
-                        if (appInsights) {
-                            appInsights.trackEvent('log/' + action, { message: args[0] });
-                        }
-
-                        original.apply(window.console, args);
-                    };
+                appInsights.trackPageView(url);
+                document.getElementById('currentPage').innerText = hash;
+                console.info('Tracked page view for path: ' + url);
+                if (hash === '#/error') {
+                    console.error('An error occured');
                 }
+            });
 
-                ['log', 'info', 'warn', 'error'].forEach(addAi);
+            function addAi(action) {
+                var original = window.console[action];
 
-            }());
-        </script>
-    </body>
+                window.console[action] = function () {
+                    var args = [].slice.call(arguments);
+
+                    if (appInsights) {
+                        appInsights.trackEvent('log/' + action, { message: args[0] });
+                    }
+
+                    original.apply(window.console, args);
+                };
+            }
+
+            ['log', 'info', 'warn', 'error'].forEach(addAi);
+
+        }());
+    </script>
+</body>
 </html> 

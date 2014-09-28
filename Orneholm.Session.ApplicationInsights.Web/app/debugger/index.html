@@ -37,7 +37,7 @@
             var trackPageViewPagePath = document.getElementById('trackPageView_pagePath');
             trackPageViewButton.addEventListener('click', function () {
                 if (appInsights) {
-                    appInsights.trackEvent(trackPageViewPagePath.value);
+                    appInsights.trackPageView(trackPageViewPagePath.value);
                     console.info('Tracked page view for path: ' + trackPageViewPagePath.value);
                 }
             });

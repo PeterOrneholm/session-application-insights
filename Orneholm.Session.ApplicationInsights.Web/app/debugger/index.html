@@ -50,6 +50,7 @@
     <h3>trackEvent()</h3>
     <div>
         <input type="text" id="trackEvent_name" placeholder="name" />
+        <input type="text" id="trackEvent_message" placeholder="property: message" />
         <button id="trackEvent_button">trackEvent()</button>
     </div>
 
@@ -58,9 +59,10 @@
 
             var trackEventButton = document.getElementById('trackEvent_button');
             var trackEventName = document.getElementById('trackEvent_name');
+            var trackEventMessage = document.getElementById('trackEvent_message');
             trackEventButton.addEventListener('click', function () {
                 if (appInsights) {
-                    appInsights.trackEvent(trackEventName.value);
+                    appInsights.trackEvent(trackEventName.value, { 'message': trackEventMessage.value });
                     console.info('Tracked event: ' + trackEventName.value);
                 }
             });

@@ -42,7 +42,7 @@
                         $http.get('/api/products/' + category)
                             .success(function (data) {
                                 $scope.products = data;
-                                $log.warn('Products fetched');
+                                $log.info('Products fetched');
                             });
                     })
                     .config(function ($routeProvider) {

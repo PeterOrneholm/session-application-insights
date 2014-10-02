@@ -17,88 +17,89 @@
         });
     </script>
 </head>
-    <body data-ng-app="poApplicationInsights">
-        <ul class="links">
-            <li><a href="/">Start</a></li>
-        </ul>
+<body data-ng-app="poApplicationInsights">
+    <ul class="links">
+        <li><a href="/">Start</a></li>
+    </ul>
 
-        <h1>Application Insights beyond console.log()</h1>
-        <h2>AngularJS</h2>
+    <h1>Application Insights beyond console.log()</h1>
+    <h2>AngularJS</h2>
 
-        <div data-ng-view></div>
+    <div data-ng-view></div>
 
-        <script src="angular.js"></script>
-        <script src="angular-route.js"></script>
-        <script>
-            (function () {
+    <script src="angular.js"></script>
+    <script src="angular-route.js"></script>
+    <script>
+        (function () {
 
-                angular
-                    .module('poApplicationInsights', ['ngRoute'])
-                    .controller('HomeController', function ($scope) { })
-                    .controller('ProductsController', function ($scope, $routeParams, $http, $log) {
-                        var category = $routeParams.category || '';
+            angular
+                .module('poApplicationInsights', ['ngRoute'])
+                .controller('HomeController', function () { })
+                .controller('ProductsController', function ($scope, $routeParams, $http, $log) {
+                    var category = $routeParams.category || '';
 
-                        $scope.title = (category || 'All') + ' products';
-                        $http.get('/api/products/' + category)
-                            .success(function (data) {
-                                $scope.products = data;
-                                $log.info('Products fetched');
-                            });
-                    })
-                    .config(function ($routeProvider) {
-                        $routeProvider
-                            .when('/home/', {
-                                templateUrl: 'home.html',
-                                controller: 'HomeController'
-                            })
-                            .when('/products/', {
-                                templateUrl: 'products.html',
-                                controller: 'ProductsController'
-                            })
-                            .when('/products/:category', {
-                                templateUrl: 'products.html',
-                                controller: 'ProductsController'
-                            })
-                            .otherwise({
-                                redirectTo: '/home/'
-                            });
-                    })
-                    .config(function ($provide) {
-                        $provide.decorator('$log', function ($delegate) {
-                            function addAi(action) {
-                                var original = $delegate[action];
-
-                                $delegate[action] = function () {
-                                    var args = [].slice.call(arguments);
-
-                                    if (appInsights) {
-                                        appInsights.trackEvent('log/' + action, { message: args[0] });
-                                    }
-
-                                    original.apply(null, args);
-                                };
-                            }
-
-                            ['log', 'info', 'warn', 'error'].forEach(addAi);
-
-                            return $delegate;
+                    $scope.title = (category || 'All') + ' products';
+                    $http.get('/api/products/' + category)
+                        .success(function (data) {
+                            $scope.products = data;
+                            $log.info('Products fetched');
+                        })
+                        .error(function (data, status, headers, config) {
+                            $log.error('Products fetch error. Status: ' + status + '; Url: ' + config.url);
                         });
-                    })
-
-                    .run(function ($rootScope, $location) {
-                        $rootScope.$on('$locationChangeSuccess', function () {
-                            if (appInsights) {
-                                var url = $location.absUrl()
-                                                    .replace('/#/', '/')
-                                                    .replace('#', '');
-
-                                appInsights.trackPageView(url);
-                                console.info('Tracked page view for path: ' + url);
-                            }
+                })
+                .config(function ($routeProvider) {
+                    $routeProvider
+                        .when('/home/', {
+                            templateUrl: 'home.html',
+                            controller: 'HomeController'
+                        })
+                        .when('/products/', {
+                            templateUrl: 'products.html',
+                            controller: 'ProductsController'
+                        })
+                        .when('/products/:category', {
+                            templateUrl: 'products.html',
+                            controller: 'ProductsController'
+                        })
+                        .otherwise({
+                            redirectTo: '/home/'
                         });
+                })
+                .run(function ($rootScope, $location) {
+                    $rootScope.$on('$locationChangeSuccess', function () {
+                        if (appInsights) {
+                            var url = $location.absUrl()
+                                                .replace('/#/', '/')
+                                                .replace('#', '');
+
+                            appInsights.trackPageView(url);
+                            console.info('Tracked page view for path: ' + url);
+                        }
                     });
+                })
+                .config(function ($provide) {
+                    $provide.decorator('$log', function ($delegate) {
+                        function addAi(action) {
+                            var original = $delegate[action];
 
-            }());
-        </script>
-    </body>
+                            $delegate[action] = function () {
+                                var args = [].slice.call(arguments);
+
+                                if (appInsights) {
+                                    appInsights.trackEvent('log/' + action, { message: args[0] });
+                                }
+
+                                original.apply(null, args);
+                            };
+                        }
+
+                        ['log', 'info', 'warn', 'error'].forEach(addAi);
+
+                        return $delegate;
+                    });
+                });
+        }());
+    </script>
+</body>
 </html> 

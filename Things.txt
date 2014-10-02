@@ -1,0 +1,8 @@
+$provide.decorator('$exceptionHandler', function ($delegate) {
+    return function (exception, cause) {
+        if (appInsights) {
+            appInsights.trackEvent('exception/' + cause, exception);
+        }
+        $delegate(exception, cause);
+    };
+});

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Web.Http;
 
@@ -41,6 +42,11 @@ namespace Orneholm.Session.ApplicationInsights.Web.Controllers
             if (category.Equals("food", StringComparison.InvariantCultureIgnoreCase))
             {
                 Thread.Sleep(3000);
+            }
+
+            if (!_products.Any(x => x.category.Equals(category, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
 
             return _products.Where(x => x.category.Equals(category, StringComparison.InvariantCultureIgnoreCase));
